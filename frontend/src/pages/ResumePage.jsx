@@ -6,12 +6,14 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import profile from '../content/profile';
 
+const RESUME_PDF_PATH = '/Rithika_Annareddy_Resume.pdf';
+
 const ResumePage = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   const downloadFormats = [
-    { name: 'PDF', icon: FileText, available: true, href: '/resume.pdf' },
+    { name: 'PDF', icon: FileText, available: true, href: RESUME_PDF_PATH },
     { name: 'DOCX', icon: File, available: false, href: '#' },
     { name: 'Plain Text', icon: File, available: false, href: '#' },
   ];
@@ -42,18 +44,29 @@ const ResumePage = () => {
           >
             <Card className="border-border/50 bg-card/50 backdrop-blur">
               <CardContent className="p-6">
-                <h2 className="font-medium text-lg mb-4">Download Resume</h2>
+                <div className="flex items-center justify-between gap-4 mb-4">
+                  <h2 className="font-medium text-lg">Download Resume</h2>
+
+                  {/* Optional: View Resume */}
+                  <Button variant="ghost" size="sm" asChild className="gap-2">
+                    <a href={RESUME_PDF_PATH} target="_blank" rel="noreferrer">
+                      <ExternalLink size={16} />
+                      View
+                    </a>
+                  </Button>
+                </div>
+
                 <div className="grid sm:grid-cols-3 gap-4">
                   {downloadFormats.map((format) => (
                     <div key={format.name}>
                       {format.available ? (
-                        <a href={format.href} download>
-                          <Button variant="outline" className="w-full gap-2">
+                        <Button variant="outline" className="w-full gap-2" asChild>
+                          <a href={format.href} download>
                             <format.icon size={18} />
                             {format.name}
                             <Download size={14} />
-                          </Button>
-                        </a>
+                          </a>
+                        </Button>
                       ) : (
                         <Button variant="outline" className="w-full gap-2" disabled>
                           <format.icon size={18} />
@@ -64,6 +77,10 @@ const ResumePage = () => {
                     </div>
                   ))}
                 </div>
+
+                <p className="text-xs text-muted-foreground mt-4">
+                  Tip: If the PDF opens instead of downloading, right-click → “Save As”.
+                </p>
               </CardContent>
             </Card>
           </motion.div>
@@ -132,7 +149,7 @@ const ResumePage = () => {
           >
             <h2 className="font-medium text-lg mb-4">Experience Highlights</h2>
             <div className="space-y-4">
-              {profile.experience.slice(0, 3).map((exp, index) => (
+              {profile.experience.slice(0, 3).map((exp) => (
                 <Card key={exp.id} className="border-border/50 bg-card/50">
                   <CardContent className="p-5">
                     <div className="flex items-start justify-between gap-4">
@@ -165,18 +182,19 @@ const ResumePage = () => {
                   I'm open to opportunities in data engineering, analytics, and applied ML.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <a href="/resume.pdf" download>
-                    <Button className="gap-2">
+                  <Button className="gap-2" asChild>
+                    <a href={RESUME_PDF_PATH} download>
                       <Download size={18} />
                       Download Full Resume
-                    </Button>
-                  </a>
-                  <a href={`mailto:${profile.email}`}>
-                    <Button variant="outline" className="gap-2">
+                    </a>
+                  </Button>
+
+                  <Button variant="outline" className="gap-2" asChild>
+                    <a href={`mailto:${profile.email}`}>
                       <ExternalLink size={18} />
                       Get in Touch
-                    </Button>
-                  </a>
+                    </a>
+                  </Button>
                 </div>
               </CardContent>
             </Card>

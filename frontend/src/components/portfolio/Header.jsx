@@ -13,15 +13,16 @@ const navItems = [
   { name: 'Contact', path: '/contact' },
 ];
 
+const HEADSHOT_SRC = '/images/Rithika-image.jpeg';
+
 const Header = ({ darkMode, setDarkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -45,23 +46,20 @@ const Header = ({ darkMode, setDarkMode }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo with Profile Picture */}
           <Link to="/" className="flex items-center space-x-3 group">
-            {/* Profile Picture Placeholder - replace src with actual image */}
-            <div className="w-8 h-8 rounded-full bg-primary/10 overflow-hidden flex items-center justify-center">
-              <img 
-                src="/profile.jpg" 
-                alt="Rithika Annareddy"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <span className="text-primary font-medium text-sm hidden">RA</span>
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              {!imgError ? (
+                <img
+                  src={HEADSHOT_SRC}
+                  alt="Rithika Annareddy"
+                  className="w-full h-full object-cover"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <span className="text-primary font-semibold text-sm">RA</span>
+              )}
             </div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="font-semibold text-lg tracking-tight"
-            >
+
+            <motion.div whileHover={{ scale: 1.05 }} className="font-semibold text-lg tracking-tight">
               <span className="text-foreground">Rithika</span>
               <span className="text-primary">.</span>
             </motion.div>
@@ -199,6 +197,7 @@ const Header = ({ darkMode, setDarkMode }) => {
                   </Link>
                 </motion.div>
               ))}
+
               <div className="pt-4 flex items-center justify-center space-x-4 border-t border-border mt-4">
                 <a
                   href={profile.github}

@@ -113,7 +113,7 @@ const HeroSection = ({ onEasterEggFound }) => {
                 <ChevronRight size={18} />
               </Button>
             </Link>
-            <a href="/resume.pdf" download>
+            <a href="/Rithika_Annareddy_Resume.pdf" download>
               <Button variant="outline" size="lg" className="gap-2">
                 <Download size={18} />
                 Download Resume

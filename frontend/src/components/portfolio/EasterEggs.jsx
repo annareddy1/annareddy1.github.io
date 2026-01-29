@@ -1,11 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Terminal } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
 
 // Konami Code: up up down down left right left right b a
-const KONAMI_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+const KONAMI_CODE = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'KeyB',
+  'KeyA',
+];
 
 const terminalLines = [
   { type: 'prompt', text: '$ whoami' },
@@ -13,13 +23,13 @@ const terminalLines = [
   { type: 'prompt', text: '$ cat ~/about.txt' },
   { type: 'output', text: 'Data Engineer | Pipeline Builder | ML Enthusiast' },
   { type: 'output', text: 'Currently: Building financial data systems at Ooftish' },
-  { type: 'output', text: 'Education: OSU \'25 - Statistics + CIS' },
+  { type: 'output', text: "Education: OSU '25 - Statistics + CIS" },
   { type: 'prompt', text: '$ ls ~/skills/' },
   { type: 'output', text: 'python/  sql/  spark/  airflow/  pytorch/  react/' },
   { type: 'prompt', text: '$ echo $STATUS' },
-  { type: 'output', text: '\u2705 Open to opportunities' },
+  { type: 'output', text: '✅ Open to opportunities' },
   { type: 'prompt', text: '$ cat ~/fun_fact.txt' },
-  { type: 'output', text: 'Secured 2nd place nationally in SAE AutoDrive Challenge II \ud83c\udfc6' },
+  { type: 'output', text: 'Secured 2nd place nationally in SAE AutoDrive Challenge II 🏆' },
   { type: 'prompt', text: '$ fortune' },
   { type: 'output', text: '"The best time to plant a tree was 20 years ago.' },
   { type: 'output', text: ' The second best time is now." - Chinese Proverb' },
@@ -33,9 +43,10 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
   useEffect(() => {
     if (isOpen && currentLineIndex < terminalLines.length) {
       const timer = setTimeout(() => {
-        setDisplayedLines(prev => [...prev, terminalLines[currentLineIndex]]);
-        setCurrentLineIndex(prev => prev + 1);
+        setDisplayedLines((prev) => [...prev, terminalLines[currentLineIndex]]);
+        setCurrentLineIndex((prev) => prev + 1);
       }, currentLineIndex === 0 ? 500 : 150);
+
       return () => clearTimeout(timer);
     }
   }, [isOpen, currentLineIndex]);
@@ -44,7 +55,7 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
     if (isOpen) {
       setDisplayedLines([]);
       setCurrentLineIndex(0);
-      onAchievement('terminal');
+      onAchievement?.('terminal');
     }
   }, [isOpen, onAchievement]);
 
@@ -59,10 +70,8 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
         className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         onClick={onClose}
       >
-        {/* Backdrop */}
         <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
-        
-        {/* Terminal window */}
+
         <motion.div
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
@@ -70,7 +79,6 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-2xl bg-[#1a1a1a] rounded-lg border border-green-500/30 shadow-2xl shadow-green-500/10 overflow-hidden"
         >
-          {/* Title bar */}
           <div className="flex items-center justify-between px-4 py-3 bg-[#252525] border-b border-green-500/20">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
@@ -83,9 +91,10 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
                 rithika@portfolio ~ bash
               </span>
             </div>
-            <Button 
-              variant="ghost" 
-              size="icon" 
+
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={onClose}
               className="h-6 w-6 text-green-500/50 hover:text-green-500 hover:bg-green-500/10"
             >
@@ -93,7 +102,6 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
             </Button>
           </div>
 
-          {/* Terminal content */}
           <div className="p-4 font-mono text-sm h-80 overflow-y-auto terminal-text">
             {displayedLines.map((line, index) => (
               <motion.div
@@ -120,9 +128,8 @@ const TerminalOverlay = ({ isOpen, onClose, onAchievement }) => {
             ))}
           </div>
 
-          {/* Footer */}
           <div className="px-4 py-2 bg-[#252525] border-t border-green-500/20 text-xs text-green-500/50 font-mono">
-            Press ESC or click outside to close | \u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA unlocked this
+            Press ESC or click outside to close | ↑↑↓↓←→←→BA unlocked this
           </div>
         </motion.div>
       </motion.div>
@@ -144,7 +151,7 @@ const AchievementPopup = ({ achievement, onClose }) => {
       className="fixed bottom-4 right-4 z-[90] p-4 bg-card border border-primary/30 rounded-lg shadow-lg max-w-xs"
     >
       <div className="flex items-center gap-3">
-        <div className="text-2xl">\ud83c\udfc6</div>
+        <div className="text-2xl">🏆</div>
         <div>
           <p className="font-medium text-sm">{achievement.name}</p>
           <p className="text-xs text-muted-foreground">{achievement.description}</p>
@@ -155,8 +162,15 @@ const AchievementPopup = ({ achievement, onClose }) => {
 };
 
 const EasterEggs = ({ children }) => {
+  // ✅ Turn off achievement popups in production
+  const SHOW_ACHIEVEMENTS = useMemo(
+    () => process.env.NODE_ENV !== 'production',
+    []
+  );
+
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [konamiProgress, setKonamiProgress] = useState(0);
+
   const [achievements, setAchievements] = useState({
     tooltip: false,
     terminal: false,
@@ -165,13 +179,12 @@ const EasterEggs = ({ children }) => {
   const [showAchievement, setShowAchievement] = useState(null);
   const [achievementCount, setAchievementCount] = useState(0);
 
-  // Konami code listener
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.code === KONAMI_CODE[konamiProgress]) {
         const newProgress = konamiProgress + 1;
         setKonamiProgress(newProgress);
-        
+
         if (newProgress === KONAMI_CODE.length) {
           setTerminalOpen(true);
           setKonamiProgress(0);
@@ -182,7 +195,6 @@ const EasterEggs = ({ children }) => {
         setKonamiProgress(0);
       }
 
-      // ESC to close terminal
       if (e.code === 'Escape' && terminalOpen) {
         setTerminalOpen(false);
       }
@@ -192,56 +204,59 @@ const EasterEggs = ({ children }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [konamiProgress, terminalOpen]);
 
-  const handleAchievement = useCallback((type) => {
-    if (!achievements[type]) {
-      setAchievements(prev => ({ ...prev, [type]: true }));
-      setAchievementCount(prev => prev + 1);
-      
-      const achievementData = {
-        tooltip: { name: 'Explorer', description: 'Found a hidden tooltip!' },
-        terminal: { name: 'Konami Master', description: 'Unlocked terminal mode!' },
-        skills: { name: 'Curious Mind', description: 'Explored the skills map!' },
-      };
-      
-      setShowAchievement(achievementData[type]);
-    }
-  }, [achievements]);
+  const handleAchievement = useCallback(
+    (type) => {
+      // ✅ No popups on production
+      if (!SHOW_ACHIEVEMENTS) return;
 
-  // Check for badge achievement
+      if (!achievements[type]) {
+        setAchievements((prev) => ({ ...prev, [type]: true }));
+        setAchievementCount((prev) => prev + 1);
+
+        const achievementData = {
+          tooltip: { name: 'Explorer', description: 'Found a hidden tooltip!' },
+          terminal: { name: 'Konami Master', description: 'Unlocked terminal mode!' },
+          skills: { name: 'Curious Mind', description: 'Explored the skills map!' },
+        };
+
+        setShowAchievement(achievementData[type]);
+      }
+    },
+    [SHOW_ACHIEVEMENTS, achievements]
+  );
+
   useEffect(() => {
+    if (!SHOW_ACHIEVEMENTS) return;
+
     if (achievementCount >= 3 && !showAchievement) {
       setShowAchievement({
         name: 'Easter Egg Hunter',
         description: 'Found all 3 hidden interactions!',
       });
     }
-  }, [achievementCount, showAchievement]);
+  }, [SHOW_ACHIEVEMENTS, achievementCount, showAchievement]);
 
   return (
     <>
-      {typeof children === 'function' 
+      {typeof children === 'function'
         ? children({ onEasterEggFound: handleAchievement })
-        : children
-      }
-      
-      {/* Terminal overlay */}
-      <TerminalOverlay 
-        isOpen={terminalOpen} 
+        : children}
+
+      <TerminalOverlay
+        isOpen={terminalOpen}
         onClose={() => setTerminalOpen(false)}
         onAchievement={handleAchievement}
       />
 
-      {/* Achievement popup */}
+      {/* ✅ Achievements only in dev */}
       <AnimatePresence>
-        {showAchievement && (
-          <AchievementPopup 
+        {SHOW_ACHIEVEMENTS && showAchievement && (
+          <AchievementPopup
             achievement={showAchievement}
             onClose={() => setShowAchievement(null)}
           />
         )}
       </AnimatePresence>
-
-      {/* Achievement counter badge removed per user request */}
     </>
   );
 };
