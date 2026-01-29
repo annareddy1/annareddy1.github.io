@@ -43,8 +43,21 @@ const Header = ({ darkMode, setDarkMode }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          {/* Logo with Profile Picture */}
+          <Link to="/" className="flex items-center space-x-3 group">
+            {/* Profile Picture Placeholder - replace src with actual image */}
+            <div className="w-8 h-8 rounded-full bg-primary/10 overflow-hidden flex items-center justify-center">
+              <img 
+                src="/profile.jpg" 
+                alt="Rithika Annareddy"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <span className="text-primary font-medium text-sm hidden">RA</span>
+            </div>
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="font-semibold text-lg tracking-tight"
