@@ -1,65 +1,114 @@
-import React, { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Send, Loader2, CheckCircle2, AlertCircle, Mail, MapPin, Phone } from 'lucide-react';
-import { Card, CardContent } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
-import { Label } from '../components/ui/label';
-import profile from '../content/profile';
-import { mockContactSubmission } from '../data/mock';
+import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  Send,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { Card, CardContent } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Label } from "../components/ui/label";
+import profile from "../content/profile";
+
+const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8080";
+
+const DEFAULT_SUCCESS =
+  "Thank you for reaching out! I'll get back to you within 24 hours.";
 
 const ContactPage = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    honeypot: '', // Spam protection
+    name: "",
+    email: "",
+    message: "",
+    honeypot: "", // spam protection
   });
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+
+  const [status, setStatus] = useState("idle"); // idle, loading, success, error
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState(DEFAULT_SUCCESS);
   const [lastSubmit, setLastSubmit] = useState(0);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Spam protection: honeypot check
-    if (formData.honeypot) {
-      console.log('Bot detected');
-      return;
-    }
+    setErrorMsg("");
 
-    // Rate limiting: 30 seconds between submissions
+  // Frontend validation
+  if (formData.message.trim().length < 10) {
+    setStatus('error');
+    setErrorMsg('Message must be at least 10 characters.');
+    return;
+  }
+
+    // Honeypot (bots)
+    if (formData.honeypot) return;
+
+    // Frontend rate limit: 30 seconds between successful submits
     const now = Date.now();
     if (now - lastSubmit < 30000) {
-      setStatus('error');
+      setStatus("error");
+      setErrorMsg("Please wait before submitting again.");
       return;
     }
 
-    setStatus('loading');
-    setLastSubmit(now);
+    setStatus("loading");
 
-    // Simulate API call (using mock data for now)
-    // In production, this would call the backend
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock success
-      if (mockContactSubmission.success) {
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '', honeypot: '' });
-      } else {
-        setStatus('error');
+      const url = `${API_URL}/api/contact`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          honeypot: formData.honeypot,
+        }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        // If backend returned non-JSON, log the raw response once for debugging
+        if (!data) {
+          const raw = await res.text().catch(() => "");
+          console.error("Non-JSON error response:", raw);
+        }
+
+        const msg =
+          (data && (data.message || data.detail)) ||
+          "Something went wrong. Please try again.";
+        setStatus("error");
+        setErrorMsg(msg);
+        return;
       }
-    } catch (error) {
-      setStatus('error');
+
+      // Only rate-limit after success
+      setLastSubmit(now);
+
+      setSuccessMsg(data?.message || DEFAULT_SUCCESS);
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "", honeypot: "" });
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+      setErrorMsg(
+        "Network error. Is the backend running, and is CORS allowed for http://localhost:3000 / http://127.0.0.1:3000?"
+      );
     }
   };
 
@@ -75,8 +124,8 @@ const ContactPage = () => {
         >
           <h1 className="text-4xl sm:text-5xl font-light mb-4">Get in Touch</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            I'm always interested in new opportunities and collaborations.
-            Drop me a message and I'll get back to you within 24 hours.
+            I'm always interested in new opportunities and collaborations. Drop
+            me a message and I'll get back to you within 24 hours.
           </p>
         </motion.div>
 
@@ -90,9 +139,11 @@ const ContactPage = () => {
           >
             <div className="space-y-6">
               <div>
-                <h2 className="font-medium text-lg mb-4">Contact Information</h2>
+                <h2 className="font-medium text-lg mb-4">
+                  Contact Information
+                </h2>
                 <div className="space-y-4">
-                  <a 
+                  <a
                     href={`mailto:${profile.email}`}
                     className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border/50 hover:border-primary/30 transition-colors group"
                   >
@@ -132,10 +183,13 @@ const ContactPage = () => {
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm font-medium text-green-600 dark:text-green-400">Available for opportunities</span>
+                    <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                      Available for opportunities
+                    </span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Currently open to full-time roles in data engineering, analytics, and ML.
+                    Currently open to full-time roles in data engineering,
+                    analytics, and ML.
                   </p>
                 </CardContent>
               </Card>
@@ -151,7 +205,7 @@ const ContactPage = () => {
           >
             <Card className="border-border/50 bg-card/50 backdrop-blur">
               <CardContent className="p-6">
-                {status === 'success' ? (
+                {status === "success" ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -161,22 +215,20 @@ const ContactPage = () => {
                       <CheckCircle2 size={32} className="text-green-500" />
                     </div>
                     <h3 className="font-medium text-xl mb-2">Message Sent!</h3>
-                    <p className="text-muted-foreground mb-6">
-                      {mockContactSubmission.message}
-                    </p>
-                    <Button variant="outline" onClick={() => setStatus('idle')}>
+                    <p className="text-muted-foreground mb-6">{successMsg}</p>
+                    <Button variant="outline" onClick={() => setStatus("idle")}>
                       Send Another Message
                     </Button>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Honeypot field - hidden from humans */}
+                    {/* Honeypot (hidden) */}
                     <input
                       type="text"
                       name="honeypot"
                       value={formData.honeypot}
                       onChange={handleChange}
-                      style={{ display: 'none' }}
+                      style={{ display: "none" }}
                       tabIndex={-1}
                       autoComplete="off"
                     />
@@ -223,23 +275,25 @@ const ContactPage = () => {
                       />
                     </div>
 
-                    {status === 'error' && (
+                    {status === "error" && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400"
                       >
                         <AlertCircle size={18} />
-                        <span className="text-sm">Please wait before submitting again.</span>
+                        <span className="text-sm">
+                          {errorMsg || "Something went wrong."}
+                        </span>
                       </motion.div>
                     )}
 
                     <Button
                       type="submit"
-                      disabled={status === 'loading'}
+                      disabled={status === "loading"}
                       className="w-full gap-2"
                     >
-                      {status === 'loading' ? (
+                      {status === "loading" ? (
                         <>
                           <Loader2 size={18} className="animate-spin" />
                           Sending...
@@ -254,6 +308,10 @@ const ContactPage = () => {
 
                     <p className="text-xs text-muted-foreground text-center">
                       I typically respond within 24 hours.
+                    </p>
+
+                    <p className="text-[11px] text-muted-foreground text-center">
+                      API: <span className="font-mono">{API_URL}</span>
                     </p>
                   </form>
                 )}
