@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowDown, Download, Github, Linkedin, Mail, Sparkles, ChevronRight, Database, BarChart3, Brain, LineChart, MapPin, GraduationCap, Award, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Card, CardContent } from '../ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Card, CardContent } from '../components/ui/card';
 import profile from '../content/profile';
 
 // Hero Section
