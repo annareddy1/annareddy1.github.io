@@ -241,18 +241,7 @@ const EasterEggs = ({ children }) => {
         )}
       </AnimatePresence>
 
-      {/* Achievement counter badge (hidden until first achievement) */}
-      {achievementCount > 0 && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="fixed bottom-4 left-4 z-[80]"
-        >
-          <Badge variant="secondary" className="gap-1 px-3 py-1.5">
-            \ud83c\udfc6 {achievementCount}/3 Found
-          </Badge>
-        </motion.div>
-      )}
+      {/* Achievement counter badge removed per user request */}
     </>
   );
 };
