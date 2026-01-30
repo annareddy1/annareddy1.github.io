@@ -10,8 +10,8 @@ export const profile = {
   github: "https://github.com/annareddy1",
   
   hero: {
-    headline: "Data Engineer who ships",
-    subheadline: "Pipelines, analytics, and ML systems that actually work in production",
+    headline: "Building data infrastructure that drives impact",
+    subheadline: "From real-time market data pipelines to analytics APIs serving thousands of users, I architect systems where reliability and business value aren't optional.",
     credibilityChips: [
       "2nd Place SAE AutoDrive II",
       "Data Engineering + Analytics",
@@ -26,29 +26,29 @@ export const profile = {
       id: "pipelines",
       title: "Financial Data Pipelines",
       icon: "Database",
-      description: "End-to-end systems for market data ingestion, transformation, and serving",
-      proof: "Built reproducible pipelines handling OHLCV, earnings, options, and fundamentals data"
+      description: "End-to-end systems for equity pricing, options chains, earnings data, and market fundamentals — built for reliability and speed.",
+      proof: "Built production pipelines processing OHLCV, earnings calendars, and options data with sub-second refresh rates"
     },
     {
       id: "analytics",
       title: "Analytics & Validation",
       icon: "BarChart3",
-      description: "Statistical validation, EDA, and data quality systems that catch issues early",
-      proof: "Designed validation checks across market regimes ensuring data integrity"
+      description: "Statistical validation, EDA, and data quality systems that catch issues before they become problems.",
+      proof: "Designed validation frameworks ensuring data integrity across market regimes — catching anomalies that spreadsheets miss"
     },
     {
       id: "ml",
       title: "Applied ML & NLP",
       icon: "Brain",
-      description: "Topic modeling, sentiment analysis, and ML systems for real-world signals",
-      proof: "Built sentiment analysis platform tracking macro events across social media"
+      description: "Topic modeling, sentiment analysis, and ML systems for real-world signals in financial and social data.",
+      proof: "Built NLP pipelines tracking macroeconomic sentiment across millions of social media posts — extracting signals from noise"
     },
     {
       id: "dashboards",
       title: "Dashboards & Experimentation",
       icon: "LineChart",
-      description: "Analytics platforms that drive product decisions with clear metrics",
-      proof: "Created experimentation platform that improved engagement by 16%"
+      description: "Analytics platforms that drive product decisions with actionable metrics and A/B testing.",
+      proof: "Shipped experimentation platforms enabling data-driven iteration — 16% engagement lift through measurable product improvements"
     }
   ],
 
@@ -277,22 +277,22 @@ export const profile = {
 
   workWithMe: {
     problems: [
-      "Data reliability and pipeline stability",
-      "Production-grade analytics systems",
-      "ML features that actually work in prod",
-      "Experimentation and A/B testing"
+      "Data reliability at scale — pipelines that don't break",
+      "Production-grade analytics infrastructure",
+      "ML features that actually work in production",
+      "A/B testing and experimentation platforms"
     ],
     approach: [
-      "Take ownership from problem to production",
-      "Document everything - future you will thank me",
-      "Measure outcomes, not just outputs",
-      "Build for maintainability, not just delivery"
+      "Own the problem, not just the ticket — from architecture to monitoring",
+      "Document relentlessly — your future self will thank me",
+      "Measure outcomes, not outputs — uptime and latency matter, but impact matters more",
+      "Build for the long game — maintainability isn't negotiable"
     ],
     teamGets: [
-      "Clean interfaces and clear abstractions",
-      "Strong metrics culture and data hygiene",
-      "Velocity without sacrificing quality",
-      "Someone who debugs root causes, not symptoms"
+      "Clean abstractions and clear contracts — data models teams can trust",
+      "Strong metrics culture — validation, monitoring, and data hygiene baked in",
+      "Velocity without chaos — ship fast, debug faster",
+      "Systems thinking — I debug root causes, not symptoms"
     ],
     services: [
       "Data Pipelines",
