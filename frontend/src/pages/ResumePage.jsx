@@ -21,7 +21,6 @@ const ResumePage = () => {
   return (
     <main className="min-h-screen pt-24 pb-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -35,7 +34,6 @@ const ResumePage = () => {
         </motion.div>
 
         <div ref={ref}>
-          {/* Download Options */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -47,7 +45,6 @@ const ResumePage = () => {
                 <div className="flex items-center justify-between gap-4 mb-4">
                   <h2 className="font-medium text-lg">Download Resume</h2>
 
-                  {/* Optional: View Resume */}
                   <Button variant="ghost" size="sm" asChild className="gap-2">
                     <a href={RESUME_PDF_PATH} target="_blank" rel="noreferrer">
                       <ExternalLink size={16} />
@@ -79,13 +76,12 @@ const ResumePage = () => {
                 </div>
 
                 <p className="text-xs text-muted-foreground mt-4">
-                  Tip: If the PDF opens instead of downloading, right-click → “Save As”.
+                  Tip: If the PDF opens instead of downloading, right-click and choose “Save As”.
                 </p>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Quick Summary */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -94,7 +90,6 @@ const ResumePage = () => {
           >
             <h2 className="font-medium text-lg mb-4">At a Glance</h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {/* Education */}
               <Card className="border-border/50 bg-card/50">
                 <CardContent className="p-5">
                   <h3 className="text-sm font-medium text-muted-foreground mb-3">Education</h3>
@@ -104,7 +99,6 @@ const ResumePage = () => {
                 </CardContent>
               </Card>
 
-              {/* Location */}
               <Card className="border-border/50 bg-card/50">
                 <CardContent className="p-5">
                   <h3 className="text-sm font-medium text-muted-foreground mb-3">Location</h3>
@@ -115,7 +109,6 @@ const ResumePage = () => {
             </div>
           </motion.div>
 
-          {/* Certifications */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -126,21 +119,40 @@ const ResumePage = () => {
             <div className="space-y-3">
               {profile.certifications.map((cert, index) => (
                 <motion.div
-                  key={index}
+                  key={cert.title}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border/50"
                 >
                   <Award size={18} className="text-primary flex-shrink-0" />
-                  <span className="text-sm">{cert}</span>
-                  <CheckCircle2 size={14} className="text-green-500 ml-auto flex-shrink-0" />
+
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium">{cert.title}</p>
+                    {cert.issuer && (
+                      <p className="text-xs text-muted-foreground">{cert.issuer}</p>
+                    )}
+                  </div>
+
+                  <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+                    {cert.link && (
+                      <a
+                        href={cert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        aria-label={`Open ${cert.title}`}
+                      >
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
+                    <CheckCircle2 size={14} className="text-green-500" />
+                  </div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Key Experience Highlights */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -168,7 +180,6 @@ const ResumePage = () => {
             </div>
           </motion.div>
 
-          {/* CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -179,7 +190,7 @@ const ResumePage = () => {
               <CardContent className="p-8">
                 <h3 className="font-medium text-xl mb-2">Interested in working together?</h3>
                 <p className="text-muted-foreground mb-6">
-                  I'm open to opportunities in data engineering, analytics, and applied ML.
+                  I’m open to opportunities in software engineering, fintech infrastructure, and real-time systems.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Button className="gap-2" asChild>

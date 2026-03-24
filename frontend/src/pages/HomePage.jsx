@@ -1,6 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowDown, Download, Github, Linkedin, Mail, Sparkles, ChevronRight, Database, BarChart3, Brain, LineChart, MapPin, GraduationCap, Award, ExternalLink } from 'lucide-react';
+import {
+  ArrowDown,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  Sparkles,
+  ChevronRight,
+  Database,
+  BarChart3,
+  Brain,
+  LineChart,
+  MapPin,
+  GraduationCap,
+  Award,
+  ExternalLink
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
@@ -19,7 +35,6 @@ const HeroSection = ({ onEasterEggFound }) => {
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
@@ -27,7 +42,6 @@ const HeroSection = ({ onEasterEggFound }) => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          {/* Name with easter egg */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -35,7 +49,7 @@ const HeroSection = ({ onEasterEggFound }) => {
             className="mb-4"
           >
             <div className="relative inline-block">
-              <h1 
+              <h1
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight cursor-default"
                 onMouseEnter={handleEasterEgg}
               >
@@ -48,7 +62,7 @@ const HeroSection = ({ onEasterEggFound }) => {
                   .
                 </motion.span>
               </h1>
-              {/* Easter egg tooltip */}
+
               {tooltipVisible && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -62,7 +76,6 @@ const HeroSection = ({ onEasterEggFound }) => {
             </div>
           </motion.div>
 
-          {/* Headline */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,7 +85,6 @@ const HeroSection = ({ onEasterEggFound }) => {
             {profile.hero.headline}
           </motion.h2>
 
-          {/* Subheadline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +94,6 @@ const HeroSection = ({ onEasterEggFound }) => {
             {profile.hero.subheadline}
           </motion.p>
 
-          {/* Credibility chips */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,7 +111,6 @@ const HeroSection = ({ onEasterEggFound }) => {
             ))}
           </motion.div>
 
-          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -121,7 +131,6 @@ const HeroSection = ({ onEasterEggFound }) => {
             </a>
           </motion.div>
 
-          {/* Social links */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -156,7 +165,6 @@ const HeroSection = ({ onEasterEggFound }) => {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -266,7 +274,6 @@ const SkillsSection = () => {
           </p>
         </motion.div>
 
-        {/* Category filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -297,11 +304,7 @@ const SkillsSection = () => {
           ))}
         </motion.div>
 
-        {/* Skills grid */}
-        <motion.div
-          layout
-          className="flex flex-wrap justify-center gap-3"
-        >
+        <motion.div layout className="flex flex-wrap justify-center gap-3">
           {filteredSkills.map((skill, index) => (
             <motion.div
               key={skill.name}
@@ -324,7 +327,6 @@ const SkillsSection = () => {
                   {skill.name}
                 </Badge>
               </div>
-              {/* Expanded skill info */}
               {expandedSkill === skill.name && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -345,7 +347,6 @@ const SkillsSection = () => {
           ))}
         </motion.div>
 
-        {/* Accessibility fallback list */}
         <noscript>
           <ul className="mt-8 columns-2 md:columns-3 lg:columns-4 gap-4">
             {profile.skills.items.map((skill) => (
@@ -407,6 +408,70 @@ const EducationSection = () => {
             </CardContent>
           </Card>
         </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Certifications Section
+const CertificationsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  if (!profile.certifications || profile.certifications.length === 0) return null;
+
+  return (
+    <section ref={ref} className="py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl sm:text-4xl font-light mb-4">Certifications</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Certifications and credentials relevant to finance, cloud, and backend systems
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {profile.certifications.map((cert, index) => (
+            <motion.a
+              key={cert.title}
+              href={cert.link || '#'}
+              target={cert.link ? '_blank' : undefined}
+              rel={cert.link ? 'noopener noreferrer' : undefined}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="block"
+            >
+              <Card className="h-full card-hover border-border/50 bg-card/50 overflow-hidden">
+                {cert.image && (
+                  <div className="aspect-[4/3] bg-muted overflow-hidden">
+                    <img
+                      src={cert.image}
+                      alt={cert.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-medium text-base leading-snug">{cert.title}</h3>
+                      {cert.issuer && (
+                        <p className="text-sm text-muted-foreground mt-1">{cert.issuer}</p>
+                      )}
+                    </div>
+                    {cert.link && <ExternalLink size={16} className="text-muted-foreground mt-1" />}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.a>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -485,7 +550,6 @@ const WorkWithMeSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {/* Problems I Love */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -506,7 +570,6 @@ const WorkWithMeSection = () => {
             </Card>
           </motion.div>
 
-          {/* How I Operate */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -527,7 +590,6 @@ const WorkWithMeSection = () => {
             </Card>
           </motion.div>
 
-          {/* What Teams Get */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -549,7 +611,6 @@ const WorkWithMeSection = () => {
           </motion.div>
         </div>
 
-        {/* Services */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -565,62 +626,6 @@ const WorkWithMeSection = () => {
             ))}
           </div>
         </motion.div>
-      </div>
-    </section>
-  );
-};
-
-// Quick Blog Preview
-const BlogPreviewSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  return (
-    <section ref={ref} className="py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex justify-between items-center mb-12"
-        >
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-light mb-2">Technical Blog</h2>
-            <p className="text-muted-foreground">Deep dives into data engineering and ML</p>
-          </div>
-          <Link to="/blog">
-            <Button variant="outline" className="gap-2">
-              View All
-              <ExternalLink size={16} />
-            </Button>
-          </Link>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {profile.blogPosts.map((post, index) => (
-            <motion.div
-              key={post.slug}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Link to={`/blog/${post.slug}`}>
-                <Card className="h-full card-hover border-border/50 bg-card/50">
-                  <CardContent className="p-6">
-                    <Badge variant="secondary" className="mb-3 text-xs">
-                      {post.status === 'draft' ? 'Draft' : post.category}
-                    </Badge>
-                    <h3 className="font-medium text-lg mb-2 line-clamp-2">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                      {post.summary}
-                    </p>
-                    <span className="text-xs text-muted-foreground">{post.readTime} read</span>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -674,9 +679,9 @@ const HomePage = ({ onEasterEggFound }) => {
       <SpecialtiesSection />
       <SkillsSection />
       <EducationSection />
+      <CertificationsSection />
       <MetricsSection />
       <WorkWithMeSection />
-      <BlogPreviewSection />
       <CTASection />
     </main>
   );

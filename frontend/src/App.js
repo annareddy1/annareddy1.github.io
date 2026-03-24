@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 // Layout components
@@ -17,7 +17,6 @@ import ContactPage from './pages/ContactPage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage or system preference
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('darkMode');
       if (saved !== null) return JSON.parse(saved);
@@ -27,19 +26,17 @@ function App() {
   });
 
   useEffect(() => {
-    // Apply dark mode class to document
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    // Save preference
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
   return (
     <div className="App min-h-screen bg-background text-foreground">
-      <BrowserRouter>
+      <HashRouter>
         <EasterEggs>
           {({ onEasterEggFound }) => (
             <>
@@ -57,7 +54,7 @@ function App() {
             </>
           )}
         </EasterEggs>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

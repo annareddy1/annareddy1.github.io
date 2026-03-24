@@ -9,7 +9,7 @@ const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Experience', path: '/experience' },
   { name: 'Projects', path: '/projects' },
-  { name: 'Blog', path: '/blog' },
+  { name: 'Resume', path: '/resume' },
   { name: 'Contact', path: '/contact' },
 ];
 
@@ -44,13 +44,12 @@ const Header = ({ darkMode, setDarkMode }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo with Profile Picture */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="w-8 h-8 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
               {!imgError ? (
                 <img
                   src={HEADSHOT_SRC}
-                  alt="Rithika Annareddy"
+                  alt={profile.name}
                   className="w-full h-full object-cover"
                   onError={() => setImgError(true)}
                 />
@@ -65,7 +64,6 @@ const Header = ({ darkMode, setDarkMode }) => {
             </motion.div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
@@ -89,9 +87,7 @@ const Header = ({ darkMode, setDarkMode }) => {
             ))}
           </nav>
 
-          {/* Right side */}
           <div className="flex items-center space-x-2">
-            {/* Social Links */}
             <div className="hidden sm:flex items-center space-x-1">
               <a
                 href={profile.github}
@@ -120,7 +116,6 @@ const Header = ({ darkMode, setDarkMode }) => {
               </a>
             </div>
 
-            {/* Dark mode toggle */}
             <Button
               variant="ghost"
               size="icon"
@@ -153,7 +148,6 @@ const Header = ({ darkMode, setDarkMode }) => {
               </AnimatePresence>
             </Button>
 
-            {/* Mobile menu button */}
             <Button
               variant="ghost"
               size="icon"
@@ -167,7 +161,6 @@ const Header = ({ darkMode, setDarkMode }) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div

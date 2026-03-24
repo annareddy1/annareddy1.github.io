@@ -10,7 +10,6 @@ const Footer = () => {
     <footer className="border-t border-border bg-muted/30">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block">
               <span className="font-semibold text-xl">
@@ -18,8 +17,8 @@ const Footer = () => {
               </span>
             </Link>
             <p className="mt-3 text-muted-foreground text-sm max-w-md">
-              Data Engineer building reliable systems that power smart decisions. 
-              Currently focused on financial data pipelines and applied ML.
+              Software Engineer building reliable systems for financial data,
+              real-time analytics, and production-grade infrastructure.
             </p>
             <div className="mt-4 flex items-center space-x-3">
               <a
@@ -50,7 +49,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-medium text-sm mb-4">Navigate</h3>
             <ul className="space-y-2">
@@ -70,29 +68,23 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                  Blog
+                <Link to="/resume" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                  Resume
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h3 className="font-medium text-sm mb-4">Get in Touch</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/contact" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                  Contact Form
+                  Contact
                 </Link>
               </li>
               <li>
-                <Link to="/resume" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                  Resume
-                </Link>
-              </li>
-              <li>
-                <a 
+                <a
                   href={`mailto:${profile.email}`}
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
@@ -108,7 +100,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
             © {currentYear} {profile.name}. All rights reserved.
